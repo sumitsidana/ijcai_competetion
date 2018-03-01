@@ -27,7 +27,7 @@ def _parse(data):
         if not line:
             continue
 
-        uid, iid, rating, timestamp = [int(x) for x in line.split(sys.argv[2])]
+        uid, iid, rating, timestamp = [int(x) for x in line.split(',')]
 
         yield uid, iid, rating, timestamp
 
