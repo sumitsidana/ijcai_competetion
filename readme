@@ -1,0 +1,84 @@
+preprocess = 
+	=>./copyfiles.sh
+	=> sed -i.bak 1i"[header]" filename(s)
+	=>./removebrackets.sh
+
+#kelkooBaselines: WriteInputFile
+./spark-submit --class "main.scala.Parquet2CSV"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+
+***preprocess***
+./spark-submit --class "main.scala.WriteTrainTestFiles"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+
+#kelkooBaselines: createFFMFeatures
+./spark-submit --class "main.scala.UserStatsTrain"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+
+***preprocess***
+./spark-submit --class "main.scala.UserClicksTrain"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+
+***preprocess***
+./spark-submit --class "main.scala.UserOfferClicksTrain"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+
+***preprocess***
+./spark-submit --class "main.scala.UserStatsTest"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+
+***preprocess***
+./spark-submit --class "main.scala.UserClicksTest"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+
+***preprocess***
+./spark-submit --class "main.scala.UserOfferClicksTest"  --packages com.databricks:spark-csv_2.11:1.4.0 --total-executor-cores 70 --executor-memory 30G --driver-memory 30G --conf spark.driver.maxResultSize=5G  ~/recsysBaselines/code/scala/target/scala-2.11/simple-project_2.11-1.0.jar
+***preprocess***
+
+./writetabseparatedfile.sh
+
+./ffminputdefault.sh
+./ffminputmain.sh
+./ffminputuserclicks.sh
+./ffminputuserofferclicks.sh
+
+./libffm.sh
+./getrankedlistgroundtruthforuserffm.sh
+./relvecffm.sh
+./evalmetrics_ffm.sh
+./writeevaluationfileffmmain.sh
+./writeevaluationfileffm_f.sh
+
+cp /data/sidana/recsysBaselines/experiments/tabseparatedinput/default/t*.csv /data/sidana/recsysBaselines/experiments/fmcountryfiles/input/
+./triple_format_to_libfm.sh
+./libfm.sh
+./getRankedListGroundTruthForUser.sh
+./relvecfm.sh
+./evalmetrics_fm.sh
+./writeevaluationfilefm.sh
+
+kelkooBaselines: Matrix Factorization
+./getrankedlistgroundtruthforusermf.sh
+./relvecmf.sh
+./evalmetrics_mf.sh
+./writeevaluationfilemf.sh
+
+kelkooBaselines: Popularity
+./writeuo.sh
+java -cp . preProcess.CopyMultipleLines /data/sidana/recsysBaselines/experiments/popcountryfiles/input /data/sidana/recsysBaselines/experiments/stats/testusers
+./joinfilessidebyside.sh
+./relvecpop.sh
+./evalmetrics_pop.sh
+./writeevaluationfilepop.sh
+
+kelkooBaselines: user_past_preferences
+./copyfiles.sh
+sudo ./GroupInteractionByUserItem.sh (on local system)
+scp -r userInteractions_* tiger:/data/sidana/recsysBaselines/experiments/picountryfiles/output/
+./targetuserpastinteractions.sh
+./relvecpi.sh
+./evalmetrics_pi.sh
+
+***micromap***
+./writefileorderinputfile2.sh
+./computeproduct.sh
+./computesum.sh
+
+***random***
+./writeo.sh
+./randomprediction.sh
+./relvecrandom.sh
+./evalmetrics_random.sh
