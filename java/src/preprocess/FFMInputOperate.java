@@ -1,4 +1,4 @@
-package preProcess;
+package preprocess;
 
 import java.io.IOException;
 
