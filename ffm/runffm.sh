@@ -1,0 +1,1 @@
+./ffm-train -p /data/sidana/ijcai_competetion/baselines/ffm/test.csv.libffm -s 16 -l 0.001 -k 8 -r 0.2 --auto-stop /data/sidana/ijcai_competetion/baselines/ffm/train.csv.libffm  /data/sidana/ijcai_competetion/baselines/ffm/model
