@@ -14,7 +14,7 @@ public class FFMInputBeta {
 		PrintWriter printWriter2 = new PrintWriter(new BufferedWriter(new FileWriter(outputFile2)));
 
 		try (BufferedReader br = new BufferedReader(new FileReader(new File(inputFile1)))) {
-//			line = br.readLine();
+			line = br.readLine();
 			String [] header = line.split("\t");
 			for(int i = 0 ; i < header.length ; i++){
 				fieldIndexValue.put(i, new LinkedHashMap<String, Long>());
@@ -46,7 +46,7 @@ public class FFMInputBeta {
 		}
 
 		try (BufferedReader br = new BufferedReader(new FileReader(new File(inputFile2)))) {
-//			line = br.readLine();
+			line = br.readLine();
 			long featureCounter = max;
 			while ((line = br.readLine()) != null) {
 				String [] array = line.split("\t");
