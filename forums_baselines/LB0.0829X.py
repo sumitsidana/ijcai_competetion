@@ -62,7 +62,7 @@ def pre_process(data):
     return data
 
 print('train')
-train = pd.read_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/round1_ijcai_18_train_20180301.txt',sep=" ")
+train = pd.read_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submission/round1_ijcai_18_train_20180301.txt',sep=" ")
 
 train = pre_process(train)
 
@@ -82,7 +82,7 @@ print(train.shape)
 print(val.shape)
 
 print('test')
-test_a = pd.read_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/round1_ijcai_18_test_a_20180301.txt',sep=" ")
+test_a = pd.read_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submission/round1_ijcai_18_test_a_20180301.txt',sep=" ")
 print(test_a.shape)
 test_a = pre_process(test_a)
 
@@ -203,4 +203,4 @@ sub['instance_id'] = list(test_index)
 
 sub['instance_id'] = list(test_index)
 sub['predicted_score'] = list(y_sub_1)
-sub.to_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/20180322.txt',sep=" ",index=False)
+sub.to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submission/20180322.txt',sep=" ",index=False)
