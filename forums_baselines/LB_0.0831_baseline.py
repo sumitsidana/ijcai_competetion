@@ -29,7 +29,7 @@ def convert_data(data):
 if __name__ == "__main__":
     online = True
 
-    data = pd.read_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_train_20180301.txt', sep=' ')
+    data = pd.read_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/input_files_ensembles/train_a', sep=' ')
     data.drop_duplicates(inplace=True)
     data = convert_data(data)
 
@@ -38,7 +38,7 @@ if __name__ == "__main__":
         test = data.loc[data.day == 24]
     elif online == True:
         train = data.copy()
-        test = pd.read_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_test_a_20180301.txt', sep=' ')
+        test = pd.read_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/input_files_ensembles/train_b', sep=' ')
         test = convert_data(test)
 
     features = ['item_id', 'item_brand_id', 'item_city_id', 'item_price_level', 'item_sales_level',
@@ -60,4 +60,4 @@ if __name__ == "__main__":
         clf.fit(train[features], train[target],
                 categorical_feature=['user_gender_id', ])
         test['predicted_score'] = clf.predict_proba(test[features])[:, 1]
-        test[['instance_id', 'predicted_score']].to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/baseline.csv', index=False,sep=' ')
+        test[['instance_id', 'predicted_score']].to_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/input_files_ensembles/baseline.csv', index=False,sep=' ')
