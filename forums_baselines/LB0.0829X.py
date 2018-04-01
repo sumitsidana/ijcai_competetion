@@ -62,7 +62,7 @@ def pre_process(data):
     return data
 
 print('train')
-train = pd.read_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_train_20180301.txt',sep=" ")
+train = pd.read_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/ffm_gbm_ensemble_best_iteration/train.csv',sep=" ")
 
 train = pre_process(train)
 
@@ -82,7 +82,7 @@ print(train.shape)
 print(val.shape)
 
 print('test')
-test_a = pd.read_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_test_a_20180301.txt',sep=" ")
+test_a = pd.read_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/ffm_gbm_ensemble_best_iteration/test.csv',sep=" ")
 print(test_a.shape)
 test_a = pre_process(test_a)
 
@@ -164,6 +164,7 @@ proba_sub = lr.predict_proba(X_val)[:,1]
 
 import lightgbm as lgb
 
+
 gbm = lgb.LGBMRegressor(objective='binary',
                         num_leaves=64,
                         learning_rate=0.01,
@@ -178,12 +179,12 @@ gbm = lgb.LGBMRegressor(objective='binary',
 gbm.fit(X_train, y_train,
         eval_set=[(X_val, y_val)],
         eval_metric='binary_logloss',
-        early_stopping_rounds=150)
+        early_stopping_rounds=900)
 
 print('Start predicting...')
 # predict
-y_pred_1 = gbm.predict(X_val, num_iteration=gbm.best_iteration)
-y_sub_1 = gbm.predict(X_test, num_iteration=gbm.best_iteration)
+y_pred_1 = gbm.predict(X_val, num_iteration=gbm.best_iteration_)
+y_sub_1 = gbm.predict(X_test, num_iteration=gbm.best_iteration_)
 
 print(log_loss(y_val,proba_val))
 print(log_loss(y_val,y_pred_1))
@@ -195,7 +196,7 @@ xx_analyse = pd.DataFrame()
 xx_analyse['ture'] = list(y_val)
 xx_analyse['pre'] = list(proba_val)
 xx_analyse['pre_1'] = list(y_pred_1)
-xx_analyse.to_csv('../tmp/xx.csv',index=False)
+xx_analyse.to_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/ffm_gbm_ensemble_best_iteration/xx.csv',index=False)
 
 
 sub = pd.DataFrame()
@@ -203,4 +204,4 @@ sub['instance_id'] = list(test_index)
 
 sub['instance_id'] = list(test_index)
 sub['predicted_score'] = list(y_sub_1)
-sub.to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/20180322.txt',sep=" ",index=False)
+sub.to_csv('/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/ffm_gbm_ensemble_best_iteratio/20180401.txt',sep=" ",index=False)
