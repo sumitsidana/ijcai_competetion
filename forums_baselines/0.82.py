@@ -1,3 +1,4 @@
+
 import pandas as pd
 import numpy as np
 import lightgbm as lgb
@@ -550,17 +551,17 @@ def sub(train, test, best_iter):
     pred = lgb_model.predict_proba(test[col])[:, 1]
     test['predicted_score'] = pred
     sub1 = test[['instance_id', 'predicted_score']]
-    sub=pd.read_csv("/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
+    sub=pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
     sub=pd.merge(sub,sub1,on=['instance_id'],how='left')
     sub=sub.fillna(0)
-    #sub[['instance_id', 'predicted_score']].to_csv('result/result0320.csv',index=None,sep=' ')
-    sub[['instance_id', 'predicted_score']].to_csv('result/result0326.txt',sep=" ",index=False)
+    #sub[['instance_id', 'predicted_score']].to_csv('/data/sidana/ijcai_competetion/result0320.csv',index=None,sep=' ')
+    sub[['instance_id', 'predicted_score']].to_csv('/data/sidana/ijcai_competetion/result0326.txt',sep=" ",index=False)
 
 
 if __name__ == "__main__":
-    train = pd.read_csv("/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/round1_ijcai_18_train_20180301.txt", sep="\s+")
-    test = pd.read_csv("/Users/sumitsidana/ijcai_2018_competetion/ijcai_submissions/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
-    data = pd.concat([train, test])
+    temp_train = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_train_20180301.txt", sep="\s+")
+    test = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
+    data = pd.concat([temp_train, test])
     data = data.drop_duplicates(subset='instance_id')  # 把instance id去重
     print('make feature')
     data = base_process(data)
@@ -574,11 +575,43 @@ if __name__ == "__main__":
     data = user_item(data)
     data = user_shop(data)
     data=shop_item(data)
+    #data.to_csv('/data/sidana/ijcai_competetion/data_2018_06_april.txt', sep=" ", index=False)
     "----------------------------------------------------线下----------------------------------------"
-    train= data[(data['day'] >= 18) & (data['day'] <= 23)]
-    test= data[(data['day'] == 24)]
-    best_iter = lgbCV(train, test)
-    "----------------------------------------------------线上----------------------------------------"
+    # train= data[(data['day'] >= 18) & (data['day'] <= 23)]
+    # test= data[(data['day'] == 24)]
+    # best_iter = lgbCV(train, test)
+    # "----------------------------------------------------线上----------------------------------------"
+    # temp_train = data[data.is_trade.notnull()]
+    # temp_test = data[data.is_trade.isnull()]
+
     train = data[data.is_trade.notnull()]
     test = data[data.is_trade.isnull()]
-    sub(train, test, best_iter)
+    values = {'is_trade': 0.0}
+    test = test.fillna(value=values)
+
+    train_va= train[(train['day'] >= 18) & (train['day'] <= 23)]
+    test_va= train[(train['day'] == 24)]
+
+    print(train['day'].min())
+    print(train['day'].max())
+    print(test['day'].min())
+    print(test['day'].max())
+
+
+    # train_original = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_train_20180301.txt", sep="\s+")
+    # train = train_original[['instance_id']]
+    # train = pd.merge(train, temp_train, on=['instance_id'], how='left')
+    #
+    # test_original = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
+    # test = test_original[['instance_id']]
+    # test = pd.merge(test, temp_test, on=['instance_id'], how='left')
+    #
+    # values = {'is_trade': 0.0}
+    # test = test.fillna(value=values)
+
+    train.to_csv('/data/sidana/ijcai_competetion/train_2018_06_april.txt', sep=" ", index=False)
+    test.to_csv('/data/sidana/ijcai_competetion/test_2018_06_april.txt', sep=" ",index=False)
+    
+    train_va.to_csv('/data/sidana/ijcai_competetion/train_va_2018_06_april.txt', sep=" ", index=False)
+    test_va.to_csv('/data/sidana/ijcai_competetion/test_va_2018_06_april.txt', sep=" ",index=False)
+    # sub(train, test, best_iter)
