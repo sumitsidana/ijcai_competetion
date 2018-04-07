@@ -551,16 +551,16 @@ def sub(train, test, best_iter):
     pred = lgb_model.predict_proba(test[col])[:, 1]
     test['predicted_score'] = pred
     sub1 = test[['instance_id', 'predicted_score']]
-    sub=pd.read_csv("/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
+    sub=pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
     sub=pd.merge(sub,sub1,on=['instance_id'],how='left')
     sub=sub.fillna(0)
-    #sub[['instance_id', 'predicted_score']].to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/result0320.csv',index=None,sep=' ')
-    sub[['instance_id', 'predicted_score']].to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/result0326.txt',sep=" ",index=False)
+    #sub[['instance_id', 'predicted_score']].to_csv('/data/sidana/ijcai_competetion/result0320.csv',index=None,sep=' ')
+    sub[['instance_id', 'predicted_score']].to_csv('/data/sidana/ijcai_competetion/result0326.txt',sep=" ",index=False)
 
 
 if __name__ == "__main__":
-    temp_train = pd.read_csv("/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_train_20180301.txt", sep="\s+")
-    test = pd.read_csv("/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
+    temp_train = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_train_20180301.txt", sep="\s+")
+    test = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
     data = pd.concat([temp_train, test])
     data = data.drop_duplicates(subset='instance_id')  # 把instance id去重
     print('make feature')
@@ -575,7 +575,7 @@ if __name__ == "__main__":
     data = user_item(data)
     data = user_shop(data)
     data=shop_item(data)
-    #data.to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/data_2018_06_april.txt', sep=" ", index=False)
+    #data.to_csv('/data/sidana/ijcai_competetion/data_2018_06_april.txt', sep=" ", index=False)
     "----------------------------------------------------线下----------------------------------------"
     # train= data[(data['day'] >= 18) & (data['day'] <= 23)]
     # test= data[(data['day'] == 24)]
@@ -588,6 +588,9 @@ if __name__ == "__main__":
     test = data[data.is_trade.isnull()]
     values = {'is_trade': 0.0}
     test = test.fillna(value=values)
+    
+    train = train.fillna(0)
+    test = test.fillna(0)
 
     train_va= train[(train['day'] >= 18) & (train['day'] <= 23)]
     test_va= train[(train['day'] == 24)]
@@ -598,20 +601,20 @@ if __name__ == "__main__":
     print(test['day'].max())
 
 
-    # train_original = pd.read_csv("/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_train_20180301.txt", sep="\s+")
+    # train_original = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_train_20180301.txt", sep="\s+")
     # train = train_original[['instance_id']]
     # train = pd.merge(train, temp_train, on=['instance_id'], how='left')
     #
-    # test_original = pd.read_csv("/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
+    # test_original = pd.read_csv("/data/sidana/ijcai_competetion/round1_ijcai_18_test_a_20180301.txt", sep="\s+")
     # test = test_original[['instance_id']]
     # test = pd.merge(test, temp_test, on=['instance_id'], how='left')
     #
     # values = {'is_trade': 0.0}
     # test = test.fillna(value=values)
 
-    train.to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/train_2018_06_april.txt', sep=" ", index=False)
-    test.to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/test_2018_06_april.txt', sep=" ",index=False)
+    train.to_csv('/data/sidana/ijcai_competetion/train_2018_06_april.txt', sep=" ", index=False)
+    test.to_csv('/data/sidana/ijcai_competetion/test_2018_06_april.txt', sep=" ",index=False)
 
-    train_va.to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/train_va_2018_06_april.txt', sep=" ", index=False)
-    test_va.to_csv('/home/sumit/ijcai_18_competetion/ijcai_competetion_submissions/test_va_2018_06_april.txt', sep=" ",index=False)
+    train_va.to_csv('/data/sidana/ijcai_competetion/train_va_2018_06_april.txt', sep=" ", index=False)
+    test_va.to_csv('/data/sidana/ijcai_competetion/test_va_2018_06_april.txt', sep=" ",index=False)
     # sub(train, test, best_iter)
