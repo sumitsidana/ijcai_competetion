@@ -15,7 +15,7 @@ public class FFMInputStringFields {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(new File(inputFile1)))) {
 			line = br.readLine();
-			String [] header = line.split("\t");
+			String [] header = line.split(",");
 			for(int i = 0 ; i < header.length ; i++){
 				fieldIndexValue.put(i, new LinkedHashMap<String, Long>());
 			}
