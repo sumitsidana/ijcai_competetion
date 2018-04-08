@@ -19,6 +19,7 @@ public class FFMInputStringFields {
 			for(int i = 0 ; i < header.length ; i++){
 				fieldIndexValue.put(i, new LinkedHashMap<String, Long>());
 			}
+			System.out.println(fieldIndexValue);
 			long featureCounter = 0;
 			while ((line = br.readLine()) != null) {
 //				String [] array = line.split("\t");
@@ -53,6 +54,7 @@ public class FFMInputStringFields {
 				String [] array = line.split("\t");
 				printWriter2.print(array[array.length-1]+" ");
 				for(int i = 0 ; i < array.length - 1; i ++){
+					System.out.println(array[i]);
 					printWriter2.print(i+":");
 					Map<String,Long> indexValue = fieldIndexValue.get(i);
 
