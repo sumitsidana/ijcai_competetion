@@ -52,7 +52,8 @@ public class FFMInputStringFields {
 			line = br.readLine();
 			long featureCounter = max;
 			while ((line = br.readLine()) != null) {
-				String [] array = line.split("\t");
+				//				String [] array = line.split("\t");
+				String[] array = line.replaceAll("^\"", "").split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$) *\"?");
 				printWriter2.print(array[array.length-1]+" ");
 				for(int i = 0 ; i < array.length - 1; i ++){
 					printWriter2.print(i+":");
