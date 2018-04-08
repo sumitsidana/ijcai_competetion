@@ -15,15 +15,15 @@ public class FFMInputStringFields {
 
 		try (BufferedReader br = new BufferedReader(new FileReader(new File(inputFile1)))) {
 			line = br.readLine();
-			String [] header = line.split(",");
+			String [] header = line.split(" ");
 			for(int i = 0 ; i < header.length ; i++){
 				fieldIndexValue.put(i, new LinkedHashMap<String, Long>());
 			}
 			System.out.println(fieldIndexValue);
 			long featureCounter = 0;
 			while ((line = br.readLine()) != null) {
-//				String [] array = line.split("\t");
-				String[] array = line.replaceAll("^\"", "").split("\"?(,|$)(?=(([^\"]*\"){2})*[^\"]*$) *\"?");
+				//				String [] array = line.split("\t");
+				String[] array = line.replaceAll("^\"", "").split("\"?( |$)(?=(([^\"]*\"){2})*[^\"]*$) *\"?");
 				printWriter1.print(array[array.length-1]+" ");
 				for(int i = 0 ; i < array.length - 1; i ++){
 					printWriter1.print(i+":");
