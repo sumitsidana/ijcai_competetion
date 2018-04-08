@@ -28,6 +28,7 @@ public class FFMInputStringFields {
 				for(int i = 0 ; i < array.length - 1; i ++){
 					printWriter1.print(i+":");
 					Map<String,Long> indexValue = fieldIndexValue.get(i);
+					System.out.println(array[i]);
 					if(indexValue.containsKey(array[i])){
 						long value = indexValue.get(array[i]);
 						printWriter1.print(value+":"+"1 ");
@@ -54,7 +55,6 @@ public class FFMInputStringFields {
 				String [] array = line.split("\t");
 				printWriter2.print(array[array.length-1]+" ");
 				for(int i = 0 ; i < array.length - 1; i ++){
-					System.out.println(array[i]);
 					printWriter2.print(i+":");
 					Map<String,Long> indexValue = fieldIndexValue.get(i);
 
